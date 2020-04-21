@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 namespace form
 {
     public partial class Form1 : Form
     {
+        private int lockOut =3;
+        private string SuperPasord = "admmin";
         public Form1()
         {
             InitializeComponent();
@@ -24,31 +27,35 @@ namespace form
 
         private void ButnEnter_Click(object sender, EventArgs e)
         {
+
+
             var textLogin = logText.Text;
 
             var textPsw = pswText.Text;
+
+            if (lockOut == 0)
+            {
+                attempTxt.Text = string.Format("Lock");
+                return;
+
+            }
+
+            if (textPsw == SuperPasord)
+            {
+                lockOut = 3;
+            }
 
             string fileReadLog = File.ReadAllText("Log.txt");
             string fileReadPsw = File.ReadAllText("Psw.txt");
 
 
-            for (int i = 1; i <= 3;  )
+            if (!(textLogin == fileReadLog && textPsw == fileReadPsw))
             {
-                if (!(textLogin == fileReadLog && textPsw == fileReadPsw)) {
-                    i++;
-                    attempTxt.Text = String.Format("Осталось попыток {0} из 3", i);
-                    
-   
-                }
-                else
-                {
-                    MessageBox.Show("Вы успешно вошли в систему");
-                    
-                }
-
+                lockOut--;
+                attempTxt.Text = String.Format("Осталось попыток {0} из 3", lockOut);
             }
-        }
 
+        }                
         private void RegBtn_Click(object sender, EventArgs e)
         {
             var textLogin = logText.Text;
@@ -58,6 +65,8 @@ namespace form
             LoginAndPasw user = new LoginAndPasw(textLogin, textPsw);
 
             user.SaveFile();
+
+            MessageBox.Show("Вы зарегистрированы");
         }
 
 
