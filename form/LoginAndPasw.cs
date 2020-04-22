@@ -13,7 +13,7 @@ namespace form
     {
         public string Login;
         public string Pasword;
-        
+        private int LockOut = 3;
 
 
         public LoginAndPasw(string login, string pasword )
@@ -27,6 +27,8 @@ namespace form
             File.WriteAllText("Log.txt", Login);
 
             File.WriteAllText("Psw.txt", Pasword);
+
+            File.WriteAllText("LockOut.txt", Convert.ToString(LockOut));
         }
     }
 }

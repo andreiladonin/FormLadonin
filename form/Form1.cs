@@ -15,7 +15,9 @@ namespace form
 {
     public partial class Form1 : Form
     {
-        private int lockOut =3;
+
+
+        private int lockOut = Convert.ToInt32(File.ReadAllText("LockOut.txt")) ;
         private string SuperPasord = "admmin";
         public Form1()
         {
@@ -48,12 +50,22 @@ namespace form
             string fileReadLog = File.ReadAllText("Log.txt");
             string fileReadPsw = File.ReadAllText("Psw.txt");
 
+            string fileLock = File.ReadAllText("LockOut.txt");
+
 
             if (!(textLogin == fileReadLog && textPsw == fileReadPsw))
             {
                 lockOut--;
+                File.WriteAllText("LockOut.txt", Convert.ToString(lockOut));
                 attempTxt.Text = String.Format("Осталось попыток {0} из 3", lockOut);
+
+
             }
+            else
+            {
+                MessageBox.Show("Вы вошли");
+            }
+
 
         }                
         private void RegBtn_Click(object sender, EventArgs e)
