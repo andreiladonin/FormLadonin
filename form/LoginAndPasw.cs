@@ -13,7 +13,7 @@ namespace form
     {
         public string Login;
         public string Pasword;
-        private int LockOut = 3;
+        private int LockOut = 4;
 
 
         public LoginAndPasw(string login, string pasword )
